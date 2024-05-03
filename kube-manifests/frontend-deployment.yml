@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: frontend
+
+  template:
+    metadata:
+      name: frontend
+      labels:
+        app: frontend
+
+    spec:
+      containers:
+        - name: frontend-azmicrodemo01-nginx
+          image: mvlab02/azmicrodemo01-nginx:tag
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
